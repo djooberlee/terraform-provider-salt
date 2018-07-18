@@ -1,4 +1,4 @@
-package ansible
+package salt
 
 import (
 	"github.com/hashicorp/terraform/helper/schema"
@@ -8,8 +8,7 @@ import (
 func Provider() terraform.ResourceProvider {
 	return &schema.Provider{
 		ResourcesMap: map[string]*schema.Resource{
-			"ansible_host":  resourceHost(),
-			"ansible_group": resourceGroup(),
+			"salt_host": resourceHost(),
 		},
 	}
 }

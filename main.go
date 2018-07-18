@@ -1,12 +1,12 @@
 package main
 
 import (
+	"github.com/dmacvicar/terraform-provider-salt/salt"
 	"github.com/hashicorp/terraform/plugin"
-	"github.com/nbering/terraform-provider-ansible/ansible"
 )
 
 func main() {
 	plugin.Serve(&plugin.ServeOpts{
-		ProviderFunc: ansible.Provider,
+		ProviderFunc: salt.Provider,
 	})
 }

@@ -1,4 +1,4 @@
-package ansible
+package salt
 
 import (
 	"github.com/hashicorp/terraform/helper/schema"
@@ -11,29 +11,30 @@ func resourceHost() *schema.Resource {
 		Update: schema.Noop,
 		Delete: schema.RemoveFromState,
 
+		// See https://docs.saltstack.com/en/latest/topics/ssh/roster.html
 		Schema: map[string]*schema.Schema{
-			"inventory_hostname": {
+			"host": {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,
 			},
-			"groups": {
-				Type: schema.TypeList,
-				Elem: &schema.Schema{
-					Type: schema.TypeString,
-				},
-				Optional: true,
+			"user": {
+				Type:     schema.TypeString,
+				Required: true,
+				ForceNew: true,
 			},
-			"vars": &schema.Schema{
-				Type:     schema.TypeMap,
-				Optional: true,
+			"passwd": {
+				Type:     schema.TypeString,
+				Required: true,
+				ForceNew: true,
 			},
+			// Optional parameters
 		},
 	}
 }
 
 func resourceHostCreate(d *schema.ResourceData, meta interface{}) error {
-	d.SetId(d.Get("inventory_hostname").(string))
+	d.SetId(d.Get("host").(string))
 
 	return nil
 }
