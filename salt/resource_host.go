@@ -21,14 +21,49 @@ func resourceHost() *schema.Resource {
 			"user": {
 				Type:     schema.TypeString,
 				Required: true,
-				ForceNew: true,
 			},
+			// Is this really required?
 			"passwd": {
 				Type:     schema.TypeString,
 				Required: true,
-				ForceNew: true,
 			},
 			// Optional parameters
+			"port": {
+				Type:     schema.TypeInt,
+				Optional: true,
+			},
+			"sudo": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
+			"sudo_user": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"tty": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
+			"priv": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"timeout": {
+				Type:     schema.TypeInt,
+				Optional: true,
+			},
+			"minion_opts": {
+				Type:     schema.TypeMap,
+				Optional: true,
+			},
+			"thin_dir": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"cmd_umask": {
+				Type:     schema.TypeInt,
+				Optional: true,
+			},
 		},
 	}
 }
