@@ -12,7 +12,6 @@ motivations behind the original ansible provider.
 - [Installing](#Installing)
 - [Quickstart](#using-the-provider)
 - [Building from source](#building-from-source)
-- [How to contribute](doc/CONTRIBUTING.md)
 
 ## Downloading
 
