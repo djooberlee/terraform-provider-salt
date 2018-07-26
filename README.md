@@ -1,58 +1,71 @@
 # Salt Terraform Provider
 
 A Terraform provider serving as an interop layer for an Terraform [roster
-module][1] that does not exist yet.
+module](https://docs.saltstack.com/en/latest/topics/ssh/roster.html) that does not exist yet.
 
-This provider is derived and inspired by [terraform-provider-ansible][7].
-Read the [introductory blog post][3] for an explanation of the design
+This provider is derived from and inspired by [terraform-provider-ansible](https://github.com/nbering/terraform-provider-ansible).
+Read the [introductory blog post](http://nicholasbering.ca/tools/2018/01/08/introducing-terraform-provider-ansible/) for an explanation of the design
 motivations behind the original ansible provider.
 
-## Installation
+## Table of Content
+- [Downloading](#Downloading)
+- [Installing](#Installing)
+- [Quickstart](#using-the-provider)
+- [Building from source](#building-from-source)
+- [How to contribute](doc/CONTRIBUTING.md)
 
-Installation can be accomplished in two different ways:
+## Downloading
 
-1. Installing a pre-compiled release (recommended)
-2. Compiling from source
+Builds for openSUSE, CentOS, Ubuntu, Fedora are created with openSUSE's [OBS](https://build.opensuse.org). The build definitions are available for both the [stable](https://build.opensuse.org/package/show/home:dmacvicar:terraform-provider-salt:stable/terraform-provider-salt) and [master](https://build.opensuse.org/project/show/home:dmacvicar:terraform-provider-salt) branches.
 
-### Compiling From Source
+## Using released builds
 
-> Note: Terraform requires Go 1.9 or later to successfully compile.
+* Head to the [releases section](https://github.com/dmacvicar/terraform-provider-salt/releases) and download the latest stable release build for your distribution.
 
-If you'd like to take advantage of features not yet available in a pre-compiled
-release, you can compile `terraform-provider-salt` from source.
+## Using unstable builds
 
-In order to compile, you will need to have Go installed on your workstation.
-Official instructions on how to install Go can be found [here][5].
+* Head to the [download area of the OBS project](https://download.opensuse.org/repositories/home:/dmacvicar:/terraform-provider-salt/) and download the build for your distribution.
 
-Alternatively, you can use [gimme][6] as a quick and easy way to install Go:
+## Building from source
 
-```shell
-$ sudo wget -O /usr/local/bin/gimme https://raw.githubusercontent.com/travis-ci/gimme/master/gimme
-$ sudo chmod +x /usr/local/bin/gimme
-$ gimme 1.10
-# copy the output to your `.bashrc` and source `.bashrc`.
+This project uses [glide](https://github.com/Masterminds/glide) to vendor all its
+dependencies.
+
+You do not have to interact with `glide` since the vendored packages are **already included in the repo**.
+
+Ensure you have the latest version of Go installed on your system, terraform usually
+takes advantage of features available only inside of the latest stable release.
+
+```console
+go get github.com/dmacvicar/terraform-provider-salt
+cd $GOPATH/src/github.com/dmacvicar/terraform-provider-salt
+go install
 ```
 
-Once you have a working Go installation, you can compile
-`terraform-provider-salt` by doing the following:
+You will now find the binary at `$GOPATH/bin/terraform-provider-salt`.
 
-```shell
-$ go get github.com/nbering/terraform-provider-ansible
-$ cd $GOPATH/src/github.com/nbering/terraform-provider-ansible
-$ make
-```
+# Installing
 
-You should now have a `terraform-provider-salt` binary located at
-`$GOPATH/bin/terraform-provider-salt`. Copy this binary to a designated
-directory as described in Terraform's [plugin installation instructions][2]
+[Copied from the Terraform documentation](https://www.terraform.io/docs/plugins/basics.html):
+> To install a plugin, put the binary somewhere on your filesystem, then configure Terraform to be able to find it. The configuration where plugins are defined is ~/.terraformrc for Unix-like systems and %APPDATA%/terraform.rc for Windows.
+
+## Using the provider
 
 ## Terraform Configuration Example
 
 ```
-resource "ansible_salt" "example" {
-    hostname = "example.com"
+resource "salt_host" "example" {
+    host = "example.com"
 }
 ```
+
+## Authors
+
+* Duncan Mac-Vicar P. <dmacvicar@suse.de>
+
+See also the list of [contributors](https://github.com/dmacvicar/terraform-provider-salt/graphs/contributors) who participated in this project.
+
+This provider is derived/forked from [terraform-provider-ansible](https://github.com/nbering/terraform-provider-ansible).
 
 ## License
 
@@ -62,10 +75,3 @@ Contributions specific to this project are made available under the
 Code under the `vendor/` directory is copyright of the various package owners,
 and made available under their own license considerations.
 
-[1]: https://docs.saltstack.com/en/latest/topics/ssh/roster.html
-[2]: https://www.terraform.io/docs/plugins/basics.html#installing-a-plugin
-[3]: http://nicholasbering.ca/tools/2018/01/08/introducing-terraform-provider-ansible/
-[4]: https://github.com/nbering/terraform-provider-ansible/releases
-[5]: https://golang.org/doc/install
-[6]: https://github.com/travis-ci/gimme
-[7]: https://github.com/nbering/terraform-provider-ansible
