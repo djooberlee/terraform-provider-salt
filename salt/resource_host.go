@@ -13,6 +13,11 @@ func resourceHost() *schema.Resource {
 
 		// See https://docs.saltstack.com/en/latest/topics/ssh/roster.html
 		Schema: map[string]*schema.Schema{
+			"salt_id": {
+				Type:     schema.TypeString,
+				Required: true,
+				ForceNew: true,
+			},
 			"host": {
 				Type:     schema.TypeString,
 				Required: true,
