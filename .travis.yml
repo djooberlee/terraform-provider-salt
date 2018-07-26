@@ -1,0 +1,16 @@
+dist:     trusty
+sudo:     false
+language: go
+
+go:
+  - 1.9
+go_import_path: github.com/dmacvicar/terraform-provider-salt
+install:        true
+before_script:
+  - go get github.com/mattn/goveralls
+  - go get github.com/golang/lint/golint
+script:
+  - make vet
+  - golint -set_exit_status salt/
+  - make test
+  - goveralls -coverprofile=profile.cov -service=travis-ci
