@@ -54,11 +54,29 @@ You will now find the binary at `$GOPATH/bin/terraform-provider-salt`.
 
 ## Terraform Configuration Example
 
-```
+```hcl
+resource "libvirt_domain" "domain" {
+  name = "domain-${count.index}"
+  memory = 1024
+  disk {
+       volume_id = "${element(libvirt_volume.volume.*.id, count.index)}"
+  }
+
+  network_interface {
+    network_name = "default"
+    hostname = "minion${count.index}"
+    wait_for_lease = 1
+  }
+  cloudinit = "${libvirt_cloudinit.init.id}"
+  count = 2
+}
+
 resource "salt_host" "example" {
-    host = "example.com"
+    host = "${libvirt_domain.domain.network_interface.0.addresses.0}
 }
 ```
+
+See [more advanced examples](examples/).
 
 ## Authors
 
