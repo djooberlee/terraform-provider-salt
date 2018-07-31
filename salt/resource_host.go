@@ -74,7 +74,7 @@ func resourceHost() *schema.Resource {
 }
 
 func resourceHostCreate(d *schema.ResourceData, meta interface{}) error {
-	d.SetId(d.Get("host").(string))
+	d.SetId(d.Get("salt_id").(string))
 
 	return nil
 }

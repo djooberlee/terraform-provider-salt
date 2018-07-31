@@ -29,7 +29,7 @@ func TestSaltHost(t *testing.T) {
 
 var testSaltHostConfig = `
 resource "salt_host" "test" {
-    salt_id = "example"
+    salt_id = "${salt_host.test.host}
 	host = "example.medstack.net"
 }
 
