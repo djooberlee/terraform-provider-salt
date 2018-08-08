@@ -173,6 +173,7 @@ terraform:
   database_master_ip: ${salt_host.master.host}
 EOF
 }
+```
 
 Then include this pillar in the virtual machines that should receive it by editing `srv/pillar/top.sls`:
 
