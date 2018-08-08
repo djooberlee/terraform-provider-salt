@@ -76,6 +76,112 @@ resource "salt_host" "example" {
 }
 ```
 
+## Setting up Salt
+
+The goal is to create a self-contained folder where you will store both the terraform file describing the infrastructure and the Salt states to configure them.
+
+```
+.
+├── etc
+│   └── salt
+│       ├── master
+│       └── pki
+│           └── master
+│               └── ssh
+│                   ├── salt-ssh.rsa
+│                   └── salt-ssh.rsa.pub
+├── main.tf
+├── Saltfile
+└── srv
+    ├── pillar
+    │   ├── terraform.sls
+    │   └── top.sls
+    └── salt
+        ├── master
+        │   └── init.sls
+        ├── minion
+        │   └── init.sls
+        ├── minion-ssh
+        │   └── init.sls
+        └── top.sls
+```
+
+* `Saltfile` should point salt to the local folder configuration:
+
+```yaml
+salt-ssh:
+  config_dir: etc/salt
+  max_procs: 30
+  wipe_ssh: True
+```
+
+* `etc/salt/master` should let `salt-ssh` know that the states and pillar are also stored in the same folder, and should enable the terraform roster.
+
+```yaml
+root_dir: .
+file_roots:
+  base:
+    - srv/salt
+pillar_roots:
+  base:
+    - srv/pillar
+roster: terraform
+```
+
+*NOTE*: The roster module may not [be upstream yet](https://github.com/saltstack/salt/pull/48873).
+
+## Giving `salt-ssh` access to terraform resources via ssh
+
+Salt by default uses the keys in `etc/salt/pki/master`. You can pre-generate those with `ssh-keygen`.
+
+For this, you can use something like cloud-init to pre-configure your Terraform resources to pre-authorize the salt-ssh key. With [terraform-provider-libvirt]() you can achieve this by using a cloud-init resource:
+
+```hcl
+resource "libvirt_cloudinit" "common_init" {
+  name = "test-init.iso"
+  user_data = <<EOF
+#cloud-config
+disable_root: 0
+ssh_pwauth:   1
+users:
+  - name: root
+    ssh-authorized-keys:
+      - ${file("etc/salt/pki/master/ssh/salt-ssh.rsa.pub")}
+EOF
+}
+```
+
+And then referencing this resource from each virtual machine:
+
+```hcl
+  cloudinit = "${libvirt_cloudinit.common_init.id}"
+```
+
+For AWS resources, you can pass the cloud-init configuration using `user_data` ([Documentation](https://www.terraform.io/docs/providers/template/d/cloudinit_config.html)).
+
+# Passing information from Terraform to Salt via Pillar
+
+Sometimes you need to use infrastructure data in the Salt states. For example, the amount of resources of certain type or the ip address of some resource. For this you can put it into the [pillar](https://docs.saltstack.com/en/latest/topics/tutorials/pillar.html).
+
+We would like to add some pillar integration at the resource level later. For now you can use `local_file` resources to write pillar sls files:
+
+```hcl
+resource "local_file" "pillar_database_cluster" {
+  filename = "${path.module}/srv/pillar/terraform_database_cluster.sls"
+  content = <<EOF
+terraform:
+  database_master_ip: ${salt_host.master.host}
+EOF
+}
+
+Then include this pillar in the virtual machines that should receive it by editing `srv/pillar/top.sls`:
+
+```yaml
+base:
+  'dbslave*':
+    - terraform_database_cluster
+```
+
 See [more advanced examples](examples/).
 
 ## Authors
