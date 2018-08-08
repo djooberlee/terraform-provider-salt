@@ -106,6 +106,15 @@ The goal is to create a self-contained folder where you will store both the terr
         └── top.sls
 ```
 
+* As Salt will create several files once you run it, make sure your `.gitignore` is good enough to avoid checking in generated files:
+
+```
+terraform.tfstate*
+*.qcow2
+var
+.terraform
+```
+
 * `Saltfile` should point salt to the local folder configuration:
 
 ```yaml
@@ -181,6 +190,16 @@ Then include this pillar in the virtual machines that should receive it by editi
 base:
   'dbslave*':
     - terraform_database_cluster
+```
+
+As this pillar file is generated, make sure you include it in `.gitignore`:
+
+```
+terraform.tfstate*
+*.qcow2
+var
+.terraform
+srv/pillar/terraform.sls
 ```
 
 See [more advanced examples](examples/).
