@@ -134,7 +134,7 @@ roster: terraform
 
 Salt by default uses the keys in `etc/salt/pki/master`. You can pre-generate those with `ssh-keygen`.
 
-For this, you can use something like cloud-init to pre-configure your Terraform resources to pre-authorize the salt-ssh key. With [terraform-provider-libvirt]() you can achieve this by using a cloud-init resource:
+For this, you can use something like cloud-init to pre-configure your Terraform resources to pre-authorize the salt-ssh key. With [terraform-provider-libvirt](https://github.com/dmacvicar/terraform-provider-libvirt) you can achieve this by using a cloud-init resource:
 
 ```hcl
 resource "libvirt_cloudinit" "common_init" {
