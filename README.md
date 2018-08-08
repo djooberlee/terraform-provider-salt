@@ -204,6 +204,22 @@ srv/pillar/terraform.sls
 
 See [more advanced examples](examples/).
 
+## Testing that everything works
+
+If everything is in place, you can start managing the resources with Salt:
+
+```console
+salt-ssh '*' test.ping
+vm0:
+    True
+vm1:
+    True
+vm2:
+    True
+```
+
+You can also run `salt-ssh '*' pillar.items` to check the machines receive the right pillar data, and `salt-ssh '*' state.apply` to apply the state.
+
 ## Authors
 
 * Duncan Mac-Vicar P. <dmacvicar@suse.de>
