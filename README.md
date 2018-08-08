@@ -3,7 +3,7 @@
 ![alpha](https://img.shields.io/badge/stability%3F-beta-yellow.svg) [![Build Status](https://travis-ci.org/dmacvicar/terraform-provider-salt.svg?branch=master)](https://travis-ci.org/dmacvicar/terraform-provider-salt) [![Coverage Status](https://coveralls.io/repos/github/dmacvicar/terraform-provider-salt/badge.svg?branch=master)](https://coveralls.io/github/dmacvicar/terraform-provider-salt?branch=master)
 
 A Terraform provider serving as an interop layer for an Terraform [roster
-module](https://docs.saltstack.com/en/latest/topics/ssh/roster.html) that does not exist yet.
+module](https://docs.saltstack.com/en/latest/topics/ssh/roster.html) that is (not upstream yet](https://github.com/saltstack/salt/pull/48873).
 
 This provider is derived from and inspired by [terraform-provider-ansible](https://github.com/nbering/terraform-provider-ansible).
 Read the [introductory blog post](http://nicholasbering.ca/tools/2018/01/08/introducing-terraform-provider-ansible/) for an explanation of the design
