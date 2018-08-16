@@ -74,7 +74,7 @@ resource "libvirt_domain" "domain" {
 }
 
 resource "salt_host" "example" {
-    host = "${libvirt_domain.domain.network_interface.0.addresses.0}
+    host = "${libvirt_domain.domain.network_interface.0.addresses.0}"
 }
 ```
 
