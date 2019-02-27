@@ -1,8 +1,0 @@
-package: github.com/dmacvicar/terraform-provider-salt
-import:
-- package: github.com/hashicorp/terraform
-  version: ^0.11.7
-  subpackages:
-  - helper/schema
-  - plugin
-  - terraform

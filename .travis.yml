@@ -1,15 +1,18 @@
 dist:     trusty
 sudo:     false
 language: go
-
 go:
-  - 1.9
-go_import_path: github.com/dmacvicar/terraform-provider-salt
+  - 1.11.x
+env:
+  - GO111MODULE=on GOFLAGS=-mod=vendor
+git:
+  depth: 1
+  go_import_path: github.com/dmacvicar/terraform-provider-salt
 install:        true
-before_script:
-  - go get github.com/mattn/goveralls
-  - go get github.com/golang/lint/golint
 script:
-  - make vet
-  - golint -set_exit_status salt/
+  - make fmt-check
+  - make vet-check
+  - make lint-check
+  - make tf-check
   - make test
+

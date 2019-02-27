@@ -1,46 +1,56 @@
-TEST?=$$(go list ./... |grep -v 'vendor')
-GOFMT_FILES?=$$(find . -name '*.go' |grep -v vendor)
+LDFLAGS += -X main.version=$$(git describe --always --abbrev=40 --dirty)
+
+# default  args for tests
+TEST_ARGS_DEF := -covermode=count -coverprofile=profile.cov
 
 default: build
 
-build: fmtcheck
-	go install
+terraform-provider-salt:
+	go build -ldflags "${LDFLAGS}"
 
-test: fmtcheck
-	go test -i $(TEST) || exit 1
-	echo $(TEST) | \
-		xargs -t -n4 go test $(TESTARGS) -timeout=30s -parallel=4
+build: fmt-check lint-check vet-check terraform-provider-salt
 
-testacc: fmtcheck
-	TF_ACC=1 go test $(TEST) -v $(TESTARGS) -timeout 120m
+install:
+	go install -ldflags "${LDFLAGS}"
 
-vet:
-	@echo "go vet ."
-	@go vet $$(go list ./... | grep -v vendor/) ; if [ $$? -eq 1 ]; then \
-		echo ""; \
-		echo "Vet found suspicious constructs. Please check the reported constructs"; \
-		echo "and fix them if necessary before submitting the code for review."; \
-		exit 1; \
-	fi
+# unit tests
+# usage:
+# - run all the unit tests: make test
+# - run some particular test: make test TEST_ARGS="-run TestAccSaltDomain_Cpu"
+test:
+	go test -v $(TEST_ARGS_DEF) $(TEST_ARGS) ./salt
 
-fmt:
-	gofmt -w $(GOFMT_FILES)
+# acceptance tests
+# usage:
+#
+# - run all the acceptance tests:
+#   make testacc
+#
+# - run some particular test:
+#   make testacc TEST_ARGS="-run TestAccSaltDomain_Cpu"
+#
+# - run all the network test with a verbose loglevel:
+#   TF_LOG=DEBUG make testacc TEST_ARGS="-run TestAccSaltNet*"
+#
+testacc:
+	./travis/run-tests-acceptance $(TEST_ARGS)
 
-fmtcheck:
-	@sh -c "'$(CURDIR)/scripts/gofmtcheck.sh'"
+vet-check:
+	go vet ./salt
 
-errcheck:
-	@sh -c "'$(CURDIR)/scripts/errcheck.sh'"
+lint-check:
+	go run golang.org/x/lint/golint -set_exit_status ./salt .
 
-vendor-status:
-	@govendor status
+fmt-check:
+	go fmt ./salt .
 
-test-compile:
-	@if [ "$(TEST)" = "./..." ]; then \
-		echo "ERROR: Set TEST to a specific package. For example,"; \
-		echo "  make test-compile TEST=./aws"; \
-		exit 1; \
-	fi
-	go test -c $(TEST) $(TESTARGS)
+tf-check:
+	terraform fmt -write=false -check=true -diff=true examples/
 
-.PHONY: build test testacc vet fmt fmtcheck errcheck vendor-status test-compile
+clean:
+	rm -f terraform-provider-salt
+
+cleanup:
+	./travis/cleanup.sh
+
+.PHONY: build install test testacc vet-check fmt-check lint-check
