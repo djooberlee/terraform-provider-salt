@@ -222,7 +222,7 @@ make
 
 ## Authors
 
-* Duncan Mac-Vicar P. <dmacvicar@suse.de>
+* Duncan Mac-Vicar P. <duncan@mac-vicar.eu>
 
 See also the list of [contributors](https://github.com/dmacvicar/terraform-provider-salt/graphs/contributors) who participated in this project.
 
