@@ -9,34 +9,11 @@ This provider is derived from and inspired by [terraform-provider-ansible](https
 Read the [introductory blog post](http://nicholasbering.ca/tools/2018/01/08/introducing-terraform-provider-ansible/) for an explanation of the design
 motivations behind the original ansible provider.
 
-## Table of Content
-- [Downloading](#Downloading)
-- [Installing](#Installing)
-- [Quickstart](#using-the-provider)
-- [Building from source](#building-from-source)
+## Getting started
 
-#
-
-## Downloading
-
-Builds for openSUSE, CentOS, Ubuntu, Fedora are created with openSUSE's [OBS](https://build.opensuse.org). The build definitions are available for both the [stable](https://build.opensuse.org/package/show/systemsmanagement:terraform/terraform-provider-salt) and [master](https://build.opensuse.org/package/show/systemsmanagement:terraform:unstable/terraform-provider-salt) branches.
-
-## Using published binaries/builds
-
-* *git master builds*: Head to the [download area of the OBS project](https://download.opensuse.org/repositories/systemsmanagement:/terraform:/unstable/) and download the build for your distribution.
-
-## Using packages
-
-Follow the instructions for your distribution:
-
-* [Packages for current git master](https://software.opensuse.org/download/package?project=systemsmanagement:terraform:unstable&package=terraform-provider-salt)
+https://registry.terraform.io/providers/dmacvicar/libvirt/latest
 
 ## Building from source
-
-This project uses [glide](https://github.com/Masterminds/glide) to vendor all its
-dependencies.
-
-You do not have to interact with `glide` since the vendored packages are **already included in the repo**.
 
 Ensure you have the latest version of Go installed on your system, terraform usually
 takes advantage of features available only inside of the latest stable release.
@@ -44,7 +21,7 @@ takes advantage of features available only inside of the latest stable release.
 ```console
 go get github.com/dmacvicar/terraform-provider-salt
 cd $GOPATH/src/github.com/dmacvicar/terraform-provider-salt
-go install
+make
 ```
 
 You will now find the binary at `$GOPATH/bin/terraform-provider-salt`.
