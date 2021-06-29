@@ -11,7 +11,7 @@ motivations behind the original ansible provider.
 
 ## Getting started
 
-https://registry.terraform.io/providers/dmacvicar/libvirt/latest
+The provide is available for auto-installation from the [Terraform Registry](https://registry.terraform.io/providers/dmacvicar/salt/latest).
 
 ## Building from source
 
