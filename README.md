@@ -13,27 +13,29 @@ motivations behind the original ansible provider.
 
 The provide is available for auto-installation from the [Terraform Registry](https://registry.terraform.io/providers/dmacvicar/salt/latest).
 
-## Building from source
+In your `main.tf` file, specify the version you want to use:
 
-Ensure you have the latest version of Go installed on your system, terraform usually
-takes advantage of features available only inside of the latest stable release.
 
-```console
-go get github.com/dmacvicar/terraform-provider-salt
-cd $GOPATH/src/github.com/dmacvicar/terraform-provider-salt
-make
+```hcl
+terraform {
+  required_providers {
+    salt = {
+      source = "dmacvicar/salt"
+      version = "0.0.2"
+    }
+  }
+}
 ```
 
-You will now find the binary at `$GOPATH/bin/terraform-provider-salt`.
+And now run terraform init:
 
-# Installing
+```
+$ terraform init
+```
 
-[Copied from the Terraform documentation](https://www.terraform.io/docs/plugins/basics.html):
-> To install a plugin, put the binary somewhere on your filesystem, then configure Terraform to be able to find it. The configuration where plugins are defined is ~/.terraformrc for Unix-like systems and %APPDATA%/terraform.rc for Windows.
+### Binding Salt hosts to Terraform resources
 
-## Using the provider
-
-## Terraform Configuration Example
+For example, to bind a Salt host to a virtual machine created with the libvirt provider:
 
 ```hcl
 resource "libvirt_domain" "domain" {
@@ -57,7 +59,7 @@ resource "salt_host" "example" {
 }
 ```
 
-## Setting up Salt
+### Setting up Salt
 
 The goal is to create a self-contained folder where you will store both the terraform file describing the infrastructure and the Salt states to configure them.
 
@@ -120,7 +122,7 @@ roster: terraform
 
 *NOTE*: The roster module may not [be upstream yet](https://github.com/saltstack/salt/pull/48873).
 
-## Giving `salt-ssh` access to terraform resources via ssh
+### Giving `salt-ssh` access to terraform resources via ssh
 
 Salt by default uses the keys in `etc/salt/pki/master`. You can pre-generate those with `ssh-keygen`.
 
@@ -149,7 +151,7 @@ And then referencing this resource from each virtual machine:
 
 For AWS resources, you can pass the cloud-init configuration using `user_data` ([Documentation](https://www.terraform.io/docs/providers/template/d/cloudinit_config.html)).
 
-# Passing information from Terraform to Salt via Pillar
+### Passing information from Terraform to Salt via Pillar
 
 Sometimes you need to use infrastructure data in the Salt states. For example, the amount of resources of certain type or the ip address of some resource. For this you can put it into the [pillar](https://docs.saltstack.com/en/latest/topics/tutorials/pillar.html).
 
@@ -185,7 +187,7 @@ srv/pillar/terraform.sls
 
 See [more advanced examples](examples/).
 
-## Testing that everything works
+### Testing that everything works
 
 If everything is in place, you can start managing the resources with Salt:
 
@@ -200,6 +202,23 @@ vm2:
 ```
 
 You can also run `salt-ssh '*' pillar.items` to check the machines receive the right pillar data, and `salt-ssh '*' state.apply` to apply the state.
+
+## Manual installation
+
+You can also manually download the provider from the [releases section](https://github.com/dmacvicar/terraform-provider-salt/releases) on Github. To install it, refer to the [Terraform documentation](https://www.terraform.io/docs/cli/config/config-file.html#provider-installation).
+
+You will now find the binary at `$GOPATH/bin/terraform-provider-salt`.
+
+## Building from source
+
+Ensure you have the latest version of Go installed on your system, terraform usually
+takes advantage of features available only inside of the latest stable release.
+
+```console
+go get github.com/dmacvicar/terraform-provider-salt
+cd $GOPATH/src/github.com/dmacvicar/terraform-provider-salt
+make
+```
 
 ## Authors
 
