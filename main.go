@@ -1,8 +1,12 @@
 package main
 
 import (
+	"flag"
+	"fmt"
 	"github.com/dmacvicar/terraform-provider-salt/salt"
 	"github.com/hashicorp/terraform-plugin-sdk/plugin"
+	"io"
+	"os"
 )
 
 var version = "was not built correctly" // set via the Makefile
@@ -15,10 +19,8 @@ func main() {
 		os.Exit(0)
 	}
 
-	defer libvirt.CleanupLibvirtConnections()
-
 	plugin.Serve(&plugin.ServeOpts{
-		ProviderFunc: libvirt.Provider,
+		ProviderFunc: salt.Provider,
 	})
 }
 
