@@ -3,7 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/dmacvicar/terraform-provider-salt/salt"
+	"github.com/djooberlee/terraform-provider-salt/salt"
 	"github.com/hashicorp/terraform-plugin-sdk/plugin"
 	"io"
 	"os"

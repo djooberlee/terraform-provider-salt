@@ -45,7 +45,7 @@ resource "salt_host" "dbminion" {
 }
 ```
 
-You can use the `count` attribute to create multiple roster entries with a single definition. You can see some [examples](https://github.com/dmacvicar/terraform-provider-salt/tree/master/examples) in the git repository.
+You can use the `count` attribute to create multiple roster entries with a single definition. You can see some [examples](https://github.com/djooberlee/terraform-provider-salt/tree/master/examples) in the git repository.
 
 
 ```console

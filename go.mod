@@ -1,4 +1,4 @@
-module github.com/dmacvicar/terraform-provider-salt
+module github.com/djooberlee/terraform-provider-salt
 
 go 1.16
 

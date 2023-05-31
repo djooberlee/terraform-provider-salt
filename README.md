@@ -1,6 +1,6 @@
 # Salt Terraform Provider
 
-![alpha](https://img.shields.io/badge/stability%3F-beta-yellow.svg) [![Tests](https://github.com/dmacvicar/terraform-provider-salt/actions/workflows/test.yml/badge.svg)](https://github.com/dmacvicar/terraform-provider-salt/actions/workflows/test.yml)
+![alpha](https://img.shields.io/badge/stability%3F-beta-yellow.svg) [![Tests](https://github.com/djooberlee/terraform-provider-salt/actions/workflows/test.yml/badge.svg)](https://github.com/djooberlee/terraform-provider-salt/actions/workflows/test.yml)
 
 A Terraform provider serving as an interop layer for an Terraform [roster
 module](https://docs.saltstack.com/en/latest/topics/ssh/roster.html) that is (not upstream yet](https://github.com/saltstack/salt/pull/48873).
@@ -11,7 +11,7 @@ motivations behind the original ansible provider.
 
 ## Getting started
 
-The provide is available for auto-installation from the [Terraform Registry](https://registry.terraform.io/providers/dmacvicar/salt/latest).
+The provide is available for auto-installation from the [Terraform Registry](https://registry.terraform.io/providers/djooberlee/salt/latest).
 
 In your `main.tf` file, specify the version you want to use:
 
@@ -20,7 +20,7 @@ In your `main.tf` file, specify the version you want to use:
 terraform {
   required_providers {
     salt = {
-      source = "dmacvicar/salt"
+      source = "djooberlee/salt"
       version = "0.0.2"
     }
   }
@@ -126,7 +126,7 @@ roster: terraform
 
 Salt by default uses the keys in `etc/salt/pki/master`. You can pre-generate those with `ssh-keygen`.
 
-For this, you can use something like cloud-init to pre-configure your Terraform resources to pre-authorize the salt-ssh key. With [terraform-provider-libvirt](https://github.com/dmacvicar/terraform-provider-libvirt) you can achieve this by using a cloud-init resource:
+For this, you can use something like cloud-init to pre-configure your Terraform resources to pre-authorize the salt-ssh key. With [terraform-provider-libvirt](https://github.com/djooberlee/terraform-provider-libvirt) you can achieve this by using a cloud-init resource:
 
 ```hcl
 resource "libvirt_cloudinit" "common_init" {
@@ -205,7 +205,7 @@ You can also run `salt-ssh '*' pillar.items` to check the machines receive the r
 
 ## Manual installation
 
-You can also manually download the provider from the [releases section](https://github.com/dmacvicar/terraform-provider-salt/releases) on Github. To install it, refer to the [Terraform documentation](https://www.terraform.io/docs/cli/config/config-file.html#provider-installation).
+You can also manually download the provider from the [releases section](https://github.com/djooberlee/terraform-provider-salt/releases) on Github. To install it, refer to the [Terraform documentation](https://www.terraform.io/docs/cli/config/config-file.html#provider-installation).
 
 You will now find the binary at `$GOPATH/bin/terraform-provider-salt`.
 
@@ -215,8 +215,8 @@ Ensure you have the latest version of Go installed on your system, terraform usu
 takes advantage of features available only inside of the latest stable release.
 
 ```console
-go get github.com/dmacvicar/terraform-provider-salt
-cd $GOPATH/src/github.com/dmacvicar/terraform-provider-salt
+go get github.com/djooberlee/terraform-provider-salt
+cd $GOPATH/src/github.com/djooberlee/terraform-provider-salt
 make
 ```
 
@@ -224,7 +224,7 @@ make
 
 * Duncan Mac-Vicar P. <duncan@mac-vicar.eu>
 
-See also the list of [contributors](https://github.com/dmacvicar/terraform-provider-salt/graphs/contributors) who participated in this project.
+See also the list of [contributors](https://github.com/djooberlee/terraform-provider-salt/graphs/contributors) who participated in this project.
 
 This provider is derived/forked from [terraform-provider-ansible](https://github.com/nbering/terraform-provider-ansible).
 
