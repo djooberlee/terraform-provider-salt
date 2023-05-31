@@ -18,6 +18,7 @@ Single host:
 resource "salt_host" "example" {
   salt_id = "minion0"
   host = "${libvirt_volume.domain.foo.network_interface.0.addresses.0}"
+  user = "root"
 }
 ```
 
@@ -27,6 +28,7 @@ Multiple instances using `count`:
 resource "salt_host" "example" {
   salt_id = "minion${count.index}"
   host = "${element(libvirt_volume.domain.*.id, count.index)}.network_interface.0.addresses.0 ${libvirt_domain.domain.network.ip}
+  user = "root"
   count = 2
 }
 ```
@@ -37,9 +39,9 @@ The provider supports the same attributes as the [roster](https://docs.saltstack
 
 The following arguments are supported:
 
-* `salt_id` - The id to reference the target system (minion) with
+* `salt_id` - (Required) The id to reference the target system (minion) with
 * `host` - (Required) The IP address or DNS name of the remote host
-* `user` - The user to log in as
+* `user` - (Required) The user to log in as
 * `passwd` - The password to log in with
 * `port` - The target system's ssh port number
 * `sudo` - Boolean to run command via sudo
