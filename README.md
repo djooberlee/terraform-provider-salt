@@ -21,7 +21,7 @@ terraform {
   required_providers {
     salt = {
       source = "djooberlee/salt"
-      version = "0.0.2"
+      version = "0.0.3"
     }
   }
 }
